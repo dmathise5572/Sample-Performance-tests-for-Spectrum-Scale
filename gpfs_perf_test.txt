@@ -1,0 +1,29 @@
+Can be run on ESS or Scale clusters
+********* All screen output should be piped into files and then saved. ******************
+
+1) Test large block sequential IO throughput from the ESS storage nodes against ESS filesystem.
+2) Run the following tests against //gpfs/gpfs0 on the clients (EMS for the ESS):
+a) 256K sequential write throughput from client 1
+b) 256K sequential write throughput from client 2
+c) 256K sequential write throughput from both client 1 and client 2 at the same time
+d) Repeat the above for 256K sequential read throughput. 
+
+Scale:
+
+Some examples for using gpfsperf.  Note that on Linux x86 systems, gpfsperf needs to be compiled.
+
+1) cd /usr/lpp/mmfs/samples/perf
+2) If the gpfsperf command does not exist, run   "make"
+3) mkdir /gpfs/gpfs0/test
+4) /usr/lpp/mmfs/samples/perf/gpfsperf create seq /gpfs/gpfs0/test/gpfsperf_test1_100G -r 256K -n 100G -th 40 -readratio 0 -repeat 10
+5) /usr/lpp/mmfs/samples/perf/gpfsperf create seq /gpfs/gpfs0/test/gpfsperf_test2_100G -r 4M -n 100G -th 40 -readratio 0 -repeat 10
+6) /usr/lpp/mmfs/samples/perf/gpfsperf create seq /gpfs/gpfs0/test/gpfsperf_test3_100G -r 8M -n 100G -th 40 -readratio 0 -repeat 10
+7) /usr/lpp/mmfs/samples/perf/gpfsperf create seq /gpfs/gpfs0/test/gpfsperf_test4_100G -r 16M -n 100G -th 40 -readratio 0 -repeat 10
+6) In the output from the above command look for the Kbytes/sec results.  You will get 10 samples, so you can average them, or note the low and high results.
+
+To read the files created in each directory:
+
+7) /usr/lpp/mmfs/samples/perf/gpfsperf read seq /gpfs/gpfs0/test/gpfsperf_test1_100G -r 256K -n 100G -th 40 -readratio 0 -repeat 10
+8) /usr/lpp/mmfs/samples/perf/gpfsperf read seq /gpfs/gpfs0/test/gpfsperf_test2_100G -r 4M -n 100G -th 40 -readratio 0 -repeat 10
+9) /usr/lpp/mmfs/samples/perf/gpfsperf read seq /gpfs/gpfs0/test/gpfsperf_test3_100G -r 8M -n 100G -th 40 -readratio 0 -repeat 10
+10) /usr/lpp/mmfs/samples/perf/gpfsperf read seq /gpfs/gpfs0/test/gpfsperf_test4_100G -r 16M -n 100G -th 40 -readratio 0 -repeat 10

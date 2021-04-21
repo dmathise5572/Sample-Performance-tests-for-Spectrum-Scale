@@ -1,0 +1,32 @@
+
+an oft used nsdperf command-line option is “-s” . It is used to launch nsdperf in server mode. The nsdperf in server mode needs to be run on all the nodes of cluster (that are to be involved in the nsdperf testing where network bandwidth between the NSD client and server should be assessed). 
+
+For example:
+
+mmdsh –N <participating_nodes> ‘<complete_path_to>nsdperf -s </dev/null > /dev/null 2>&1 &’
+mmdsh -N lbs1gssio1-hs,lbs1gssio2-hs,lbs1ems1-hs,lbsserv37-hs,lbsserv42-hs "/usr/lpp/mmfs/samples/net/nsdperf -s </dev/null > /dev/null 2>&1 &"
+
+
+RDMA setup
+nohup nsdperf -r mlx4_0/1 -r mlx4_0/2 -w 16 -s < /dev/null > /dev/null 2>&1 &13:29
+nohup nsdperf -r mlx4_0/1 -r mlx4_0/2 -w 16 -s < /dev/null > /dev/null 2>&1 &
+
+
+
+<complete_path_to>nsdperf>/nsdperf 
+nsdperf> client <name> # you can enter multiple clients on a single line, comma separated.
+nsdperf> server <name> # Same as above for multiple servers.
+
+Set the runtime:
+nsdperf> ttim30 <===== 30 seconds
+nsdperf> test
+nsdperf> status
+
+# Enable RDMA for sending data blocks using “rdma” parameter
+nsdperf-ib> rdma on
+RDMA is now on
+
+rerun the test as needed, saving the screen output to a file or files.
+
+
+
